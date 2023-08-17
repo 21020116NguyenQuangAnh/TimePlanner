@@ -1,0 +1,135 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model Report {
+  report_id    String    @id @default(cuid())
+  user_id      String
+  started_time DateTime?
+  to_time      DateTime?
+  Judge        String?   @db.VarChar(255)
+
+  @@index([user_id], map: "FK_report")
+}
+
+model Shared_Task {
+  task_id String
+  user_id String
+
+  @@id([task_id, user_id])
+  @@index([user_id], map: "FK_user_id")
+}
+
+model Task {
+  task_id        String     @id @default(cuid())
+  user_id        Int?
+  task_name      String     @db.VarChar(150)
+  description    String?    @db.VarChar(255)
+  location       String?
+  started_time   DateTime?  @db.DateTime(0)
+  finished_time  DateTime?  @db.DateTime(0)
+  status         Status?    @default(INPROGRESS)
+  priority       Priority?  @default(MEDIUM)
+  type           Task_Type? @default(BASIC_NEED)
+  created_at     DateTime   @default(now()) @db.DateTime(0)
+  parent_task_id String?
+  title          String?
+
+  @@index([user_id], map: "FK_user_and_task")
+  @@index([parent_task_id], map: "FK_task_1")
+}
+
+model Weather {
+  id        Int     @id @default(autoincrement())
+  iconName  String?
+  iconImage String?
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+}
+
+model User {
+  id            Int       @id @default(autoincrement())
+  name          String?
+  age           Int?
+  email         String?   @unique
+  emailVerified DateTime?
+  password      String?
+  image         String?
+  address       String?
+  phone_number  String?
+  company       String?
+  job           String?
+  gender        Gender?
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Sessions {
+  session_id String  @id @db.VarChar(128)
+  expires    Int     @db.UnsignedInt
+  data       String? @db.MediumText
+}
+
+enum Status {
+  STOPPED
+  INPROGRESS
+  COMPLETED
+}
+
+enum Priority {
+  HIGH
+  MEDIUM
+  LOW
+}
+
+enum Task_Type {
+  WORK_OR_STUDY
+  ENTERTAINMENT_OR_HOBBY
+  BASIC_NEED
+  HOUSEWORK
+  HEALTH
+  SPORT_OR_WORKOUT
+  SOCIAL_ACTIVITY
+  WASTED_TIME
+  OTHERS
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHERS
+}
