@@ -37,7 +37,7 @@ app.use(cors({
 app.use(cookieParser());
 
 const options = {
-    expiration: 3*3600*1000,
+    expiration: 3 * 3600 * 1000,
     createDatabaseTable: true,
     schema: {
         tableName: 'Sessions',
@@ -133,4 +133,6 @@ route(app);
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
-})
+});
+
+module.exports = app;
