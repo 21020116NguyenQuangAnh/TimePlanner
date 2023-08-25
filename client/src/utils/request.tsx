@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const request = axios.create({
-    baseURL: 'http://localhost:3002/',
+    baseURL: 'https://time-planner-123.vercel.app/',
     withCredentials: true, // Cho phép gửi cookie
 });
 export default request;
