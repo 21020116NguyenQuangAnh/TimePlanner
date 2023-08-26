@@ -22,7 +22,7 @@
                 },
                 {
                     "key": "Access-Control-Allow-Origin",
-                    "value": "*"
+                    "value": "https://time-planner-4c1w.vercel.app"
                 },
                 {
                     "key": "Access-Control-Allow-Methods",
