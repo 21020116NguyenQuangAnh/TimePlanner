@@ -22,7 +22,7 @@
                 },
                 {
                     "key": "Access-Control-Allow-Origin",
-                    "value": "https://time-planner-4c1w.vercel.app"
+                    "value": "http://localhost:3001"
                 },
                 {
                     "key": "Access-Control-Allow-Methods",
